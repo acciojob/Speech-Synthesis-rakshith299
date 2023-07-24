@@ -13,11 +13,7 @@ let speechSynthesis = window.speechSynthesis;
 
 let utterance = new SpeechSynthesisUtterance();
 
-let voices = [];
-
-
-console.log(speechSynthesis);
-console.log(utterance);
+let receivedVoice = [];
 
 
 stop.addEventListener("click",function(){
@@ -49,12 +45,17 @@ rate.addEventListener("change", function(){
 dropdown.addEventListener("change", function(){
     let selected = dropdown.value;
 
-    utterance.voice = selected;
+    console.log("voices", receivedVoice);
+    receivedVoice.filter((eachVoice) => {
+        if(eachVoice.name === selected){
+            utterance.voice = eachVoice;
+        }
+    })
 })
 
 
 function getAllVoices(){
-    let receivedVoice = speechSynthesis.getVoices();
+    receivedVoice = speechSynthesis.getVoices();
 
     receivedVoice.map((eachVoice) => {
         let eachVoiceName = eachVoice.name;
@@ -68,7 +69,7 @@ function getAllVoices(){
         dropdown.appendChild(option);
 
         
-    })
+    });
 }
 
 speechSynthesis.onvoiceschanged = getAllVoices;
